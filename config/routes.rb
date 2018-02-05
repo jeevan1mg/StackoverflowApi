@@ -1,3 +1,22 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api,  module: 'api/v1' do
+
+    resources :users do
+      resources :user_profiles
+      resources :questions
+      resources :answers
+    end
+
+    resources :questions do
+      resources :answers do
+        resources :comments
+      end
+      resources :comments
+    end
+
+    resources :sessions
+
+    match 'sign_out',                         to:  'sessions#destroy',                     via: :post
+  end
 end

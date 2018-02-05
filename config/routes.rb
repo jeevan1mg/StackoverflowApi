@@ -15,8 +15,7 @@ Rails.application.routes.draw do
       resources :comments
     end
 
-    resources :sessions
-
     match 'sign_out',                         to:  'sessions#destroy',                     via: :post
+    match 'login',                            to:  'sessions#create',                      via: :post
   end
 end

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   soft_deletable
 
   has_many :sessions
+  has_many :questions
   has_one  :user_profile
   has_and_belongs_to_many :badges
   attr_accessor :password

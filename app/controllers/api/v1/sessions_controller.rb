@@ -2,7 +2,7 @@ class Api::V1::SessionsController < ApplicationController
 
   def create
     user = User.where(email: params[:session][:email]).first
-    if UserAuthenticator.new(user).authenticate(params[:session][:password])
+    if user and UserAuthenticator.new(user).authenticate(params[:session][:password])
       sign_in user
       render json: { success: true, message: 'Login Successful', auth_token: @session.auth_token }, status: :ok
     else

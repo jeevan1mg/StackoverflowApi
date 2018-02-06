@@ -1,6 +1,6 @@
 module Authenticable
   def current_user
-    @current_user ||= current_session.user
+    @current_user ||= current_session.user if current_session
   end
 
   def current_session

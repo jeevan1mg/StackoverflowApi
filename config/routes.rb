@@ -9,10 +9,8 @@ Rails.application.routes.draw do
     end
 
     resources :questions do
-      resources :answers do
-        resources :comments
-      end
-      resources :comments
+      resources :answers
+      match 'comment',                         to:  'comment',                             via: :post
     end
 
     match 'sign_out',                         to:  'sessions#destroy',                     via: :post

@@ -1,10 +1,10 @@
 class Api::V1::QuestionsController < ApplicationController
-
-  before_action   :user_logged_in?, :create
+  include CommentModule
 
   def create
     if current_user
       question = current_user.questions.build(question_params)
+      question.tags = tags
       if question.save!
         render json: { success: true, message: "Question created"}, status: :ok
       else
@@ -15,8 +15,24 @@ class Api::V1::QuestionsController < ApplicationController
     end
   end
 
+  def show
+    render json: {question: QuestionSerializer.new(question)}
+  end
+
   private
     def question_params
-      params.require(:question).permit(:title,:text)
+      params.require(:question).permit( :title, :text)
+    end
+
+    def tags
+      Tag.where(name: params[:question][:tags])
+    end
+
+    def commentable
+      Question.find(params[:question_id])
+    end
+
+    def question
+      Question.find(params[:id])
     end
 end

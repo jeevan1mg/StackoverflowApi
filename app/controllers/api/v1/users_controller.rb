@@ -22,4 +22,8 @@ class Api::V1::UsersController < ApplicationController
     def user_profile_params
       params.require(:user).permit(:full_name)
     end
+
+    def user
+      User.find(params[:id])
+    end
 end

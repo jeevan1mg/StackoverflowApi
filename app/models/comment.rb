@@ -4,8 +4,8 @@ class Comment < ApplicationRecord
   hard_deletable
   soft_deletable
 
-  belongs_to :commentable, polymorphic: true, counter_cache: true
-  belongs_to :user,        counter_cache: true
+  belongs_to :commentable, polymorphic: true
+  belongs_to :user
 
   validates_presence_of    :user, :commentable, :text
 

@@ -1,3 +1,6 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id
+  has_many :comments, as: :commentable
+  has_many :answers
+  attributes :id, :title, :text, :answers, :comments
+
 end

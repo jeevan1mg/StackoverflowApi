@@ -15,6 +15,10 @@ class Api::V1::AnswersController < ApplicationController
     end
   end
 
+  def show
+    render json: answer
+  end
+
   private
   def answer_params
     params.require(:answer).permit(:text)
@@ -27,4 +31,9 @@ class Api::V1::AnswersController < ApplicationController
   def question
     Question.find(params[:question_id])
   end
+
+  def answer
+    Answer.find(params[:id])
+  end
+
 end

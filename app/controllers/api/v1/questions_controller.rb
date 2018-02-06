@@ -1,6 +1,14 @@
 class Api::V1::QuestionsController < ApplicationController
   include CommentModule
 
+  def index
+    if params[:user_id]
+      render json: Question.where(user_id: params[:user_id])
+    else
+      render json: Question.all
+    end
+  end
+
   def create
     if current_user
       question = current_user.questions.build(question_params)
@@ -16,7 +24,7 @@ class Api::V1::QuestionsController < ApplicationController
   end
 
   def show
-    render json: {question: QuestionSerializer.new(question)}
+    render json: question
   end
 
   private

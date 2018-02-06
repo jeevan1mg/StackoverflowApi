@@ -1,7 +1,11 @@
 class Api::V1::UsersController < ApplicationController
 
   def show
-    render json: {user: UserSerializer.new(user)}
+    render json: user
+  end
+
+  def index
+    render json: User.all
   end
 
   def create

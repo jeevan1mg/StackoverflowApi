@@ -8,6 +8,8 @@ module Authenticable
   end
 
   def user_logged_in?
-    current_user.present?
+    unless current_user
+      render json: { success: false, message: "You need to be logged in to take this action"}, status: :ok
+    end
   end
 end

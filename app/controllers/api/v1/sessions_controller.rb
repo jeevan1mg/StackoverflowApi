@@ -1,4 +1,5 @@
 class Api::V1::SessionsController < ApplicationController
+  before_action  :user_logged_in? , only:[:destroy]
 
   def create
     user = User.where(email: params[:session][:email]).first
@@ -14,17 +15,13 @@ class Api::V1::SessionsController < ApplicationController
     if sign_out
       render json: { success: true, message: 'Signout Successful' }, status: :ok
     else
-      render json: { success: false, message: 'Invalid Credentials' }, status: :ok
+      render json: { success: false, message: 'Invalid Request' }, status: :ok
     end
   end
 
   def sign_in(user)
     @session = Session.new(user_id: user.id)
-    if @session.save
-      true
-    else
-      false
-    end
+    @session.save
   end
 
   def sign_out

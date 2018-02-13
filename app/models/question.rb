@@ -2,8 +2,7 @@ class Question < ApplicationRecord
   auditable
   commentable
   votable
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :user
   has_many   :answers

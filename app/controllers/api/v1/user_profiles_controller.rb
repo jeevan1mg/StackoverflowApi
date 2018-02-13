@@ -1,24 +1,29 @@
 class Api::V1::UserProfilesController < ApplicationController
 
+  before_action  :user_logged_in? , only:[:create]
+
   def show
-    render json: {user: UserProfileSerializer.new(user_profile)}
+    render json: user_profile
   end
 
   def create
-    user_profile = UserProfile.new(user_profile_params)
-    if user_profile.save
-      render json:  {success: true, message: "User Created"}, status: :ok
-    else
-      render json:  {success: false, message: "User Creation Failed", user_profile: user_profile.errors}, status: :ok
-    end
+    user_profile = user.build_user_profile(user_profile_params)
+    user_profile.save!
+    render json:  {success: true, message: "User Created"}, status: :ok
   end
 
   private
-    def user_profile_params
-      params.require(:user_profile).permit(:user_id ,:full_name)
-    end
 
-    def user_profile
-      UserProfile.find_by(id: params[:id])
-    end
+  def user_profile_params
+    params.require(:user_profile).permit(:full_name)
+  end
+
+  def user_profile
+    UserProfile.find_by(id: params[:id])
+  end
+
+  def user
+    User.find(params[:user_id])
+  end
+
 end

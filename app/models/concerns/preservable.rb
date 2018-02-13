@@ -1,20 +1,16 @@
 module Preservable
   extend ActiveSupport::Concern
   included do
-    def self.soft_deletable
+    def self.preservable
 
       default_scope { where deleted: false }
+
+      alias_method :hard_delete, :destroy
 
       def destroy
         self.deleted = true
         self.deleted_at = Time.now
       end
-
     end
-
-    def self.hard_deletable
-      alias_method :hard_delete, :destroy
-    end
-
   end
 end

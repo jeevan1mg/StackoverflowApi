@@ -1,6 +1,5 @@
 class Audit < ApplicationRecord
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :auditable, polymorphic: true
   belongs_to :auditor, class_name: 'User'

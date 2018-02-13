@@ -1,8 +1,7 @@
 class Vote < ApplicationRecord
   auditable
   scorable
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :user
 

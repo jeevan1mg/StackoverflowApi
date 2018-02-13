@@ -1,8 +1,7 @@
 class Comment < ApplicationRecord
   auditable
   scorable
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :commentable, polymorphic: true
   belongs_to :user

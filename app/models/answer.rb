@@ -3,8 +3,7 @@ class Answer < ApplicationRecord
   commentable
   votable
   scorable
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :user
   belongs_to :question

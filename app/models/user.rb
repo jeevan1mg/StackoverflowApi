@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   auditable
-  hard_deletable
-  soft_deletable
+  preservable
 
   has_many :sessions
   has_many :questions
@@ -10,21 +9,20 @@ class User < ApplicationRecord
   attr_accessor :password
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :user_name, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
-  validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true
-  validates_length_of :password, :in => 6..20, :on => :create
+  validates :user_name, presence: true, uniqueness: true, length: { in: 3..20 }
+  validates :email, presence: true, uniqueness: true, format: EMAIL_REGEX
+  validates :password, confirmation: true
+  validates_length_of :password, in: 6..20, on: :create
 
-  before_save  :encrypt_password
-  after_save   :delete_password
+  before_create  :encrypt_password
+  after_create   :delete_password
 
   private
 
   def encrypt_password
-    if password.present?
-      self.salt = BCrypt::Engine.generate_salt
-      self.encrypted_password= BCrypt::Engine.hash_secret(password, salt)
-    end
+    return unless password.present?
+    self.salt = BCrypt::Engine.generate_salt
+    self.encrypted_password= BCrypt::Engine.hash_secret(password, salt)
   end
 
   def delete_password

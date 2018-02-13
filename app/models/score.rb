@@ -1,7 +1,6 @@
 class Score < ApplicationRecord
   auditable
-  hard_deletable
-  soft_deletable
+  preservable
 
   belongs_to :user
   belongs_to :scorable, polymorphic: true

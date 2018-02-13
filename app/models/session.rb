@@ -1,13 +1,12 @@
 class Session < ApplicationRecord
   auditable
 
-  belongs_to :user, dependent: :destroy, autosave: true
-
-  validates_presence_of :user
-
-  before_create :generate_authentication_token, :set_validity
-
   enum status: [:active, :expired]
+
+  belongs_to :user, dependent: :destroy
+
+  before_create :generate_authentication_token
+  before_create :set_validity
 
   def generate_authentication_token
     begin
